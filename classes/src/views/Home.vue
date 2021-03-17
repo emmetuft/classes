@@ -1,18 +1,35 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="wrapper">
+    <CourseList :courses="courses"/>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import CourseList from '@/components/CourseList.vue'
 
 export default {
   name: 'Home',
   components: {
-    HelloWorld
-  }
+    CourseList
+  },
+  data() {
+    return {
+
+    }
+  },
+  computed: {
+    courses() {
+      return this.$root.$data.courses;
+    }
+  },
 }
 </script>
+
+<style scoped>
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+</style>
