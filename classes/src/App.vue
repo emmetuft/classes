@@ -1,9 +1,24 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/create">Create a course</router-link>
-    </div>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+      <a class="navbar-brand" href="#">Navbar</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <router-link to="/" exact-active-class="active-link" class="nav-link">Home</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link to="/courses" exact-active-class="active-link" class="nav-link">View courses</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link to="/create" exact-active-class="active-link" class="nav-link">Create a course</router-link>
+          </li>
+        </ul>
+      </div>
+    </nav>
     <router-view/>
   </div>
 </template>
@@ -17,16 +32,27 @@
   color: #2c3e50;
 }
 
-#nav {
-  padding: 30px;
+.nav-link {
+    display: block;
+    font-weight: 500 !important;
+    color: white !important;
 }
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
+.nav-item {
+  margin-left: 30px;
+  border-radius: 20px;
 }
 
-#nav a.router-link-exact-active {
-  color: #42b983;
+.nav-item:hover {
+  background-color: #e9bb31 !important;
+}
+
+.navbar-dark {
+  background-color: #e9b000 !important;
+}
+
+.active-link {
+  background-color: #e9bb31 !important;
+  border-radius: 20px;
 }
 </style>
