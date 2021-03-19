@@ -2,12 +2,19 @@
 <div class="wrapper">
   <div class="courses">
     <div class="course" v-for="course in courses" :key="course.id">
+      <div class="title">
         <h4>{{ course.name }}</h4>
-        <p>Instructor: {{ course.instructor }}</p>
-        <div class="description-container">
-          <p class="description">{{ course.description }}</p>
-        </div>
-        <button class="btn btn-dark">Register</button>
+      </div>
+      <p>Instructor: {{ course.instructor }}</p>
+      <div class="description-container">
+        <p class="description">{{ course.description }}</p>
+      </div>
+      <div class="course-info">
+        <p>{{ course.duration }}</p>
+        <p>{{ course.time }}</p>
+        <p>{{ course.price }}</p>
+      </div>
+      <button class="btn btn-dark">Register</button>
     </div>
   </div>
 </div>
@@ -46,17 +53,33 @@ export default {
   width: 200px;
   flex-basis: 20%;
   background-color: rgb(240, 241, 243);
-  border: 3px solid rgb(240, 241, 243);
   border-radius: 10px;
-  padding: 15px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+.title {
+  height: 40px;
+  margin-bottom: 20px;
+}
+
+h4 {
+  font-size: 18px;
 }
 
 .description-container {
-  height: 200px;
+  height: 140px;
+  background-color: rgb(220, 223, 230);
+  padding: 10px;
+  margin-bottom: 15px;
 }
 
 .description {
   font-size: 14px;
+}
+
+.course-info {
+
 }
 
 .btn-dark {
@@ -65,8 +88,8 @@ export default {
 }
 
 .btn-dark:hover {
-  background-color: #007b80 !important;
-  border-color: #007b80 !important;
+  background-color: #015c5f !important;
+  border-color: #015c5f !important;
 }
 
 @media only screen and (max-width: 600px) {

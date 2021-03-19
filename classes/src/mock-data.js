@@ -11,7 +11,7 @@ let mock = [{
   {
     id: 2,
     name: "Photoshop 101",
-    instructor: "Kathy Grimwald",
+    instructor: "Parker Hence",
     description: "ALL the basics of Adobe Photoshop, and then some!",
     time: "11:00am - 12:00pm MWF",
     duration: "3 weeks",
@@ -192,7 +192,7 @@ let mock = [{
     id: 20,
     name: "Baking with Florence Swenson",
     instructor: "Florence Swenson",
-    description: "Each week we will send out a list of ingredients to purchase and then we will meet online and bake something new and delicious on that same Wednesday! You will learn the best baking tips so anyone can join, even if you've never baked before.",
+    description: "Each week we will send out a list of ingredients to purchase and then we will meet online and bake something new and delicious on that same Wednesday!",
     time: "2:00pm - 3:30pm W",
     duration: "6 weeks",
     price: "$10",
