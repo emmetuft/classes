@@ -15,7 +15,7 @@
         <p>{{ course.price }}</p>
       </div>
       <button v-if="!checkRegistration(course)" v-bind:id="course.id" class="btn btn-dark" v-on:click="register(course)">Register</button>
-      <button v-if="checkRegistration(course)" v-bind:id="course.id" class="btn btn-dark" v-on:click="register(course)">Registered!</button>
+      <button v-if="checkRegistration(course)" v-bind:id="course.id" class="btn btn-dark btn-color" v-on:click="register(course)">Registered!</button>
     </div>
   </div>
 </div>
@@ -34,6 +34,7 @@ export default {
       if (button.innerHTML == "Register") {
         this.$root.$data.registeredCourses.push(course);
         button.innerHTML = "Registered!";
+        button.classList.add("btn-color");
       }
     },
 
@@ -96,10 +97,6 @@ h4 {
   font-size: 14px;
 }
 
-.course-info {
-
-}
-
 .btn-dark {
   background-color: #008f95 !important;
   border-color: #008f95 !important;
@@ -108,6 +105,16 @@ h4 {
 .btn-dark:hover {
   background-color: #015c5f !important;
   border-color: #015c5f !important;
+}
+
+.btn-color {
+  background-color: #e24e42 !important;
+  border-color: #e24e42 !important;
+}
+
+.btn-color:hover {
+  background-color: #e24e42 !important;
+  border-color: #e24e42 !important;
 }
 
 @media only screen and (max-width: 600px) {

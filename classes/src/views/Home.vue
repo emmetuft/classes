@@ -17,7 +17,7 @@
       </div>
     </div>
     <div class="footer">
-      <a href="">GitHub</a>
+      <a href="https://github.com/emmetuft/classes">GitHub</a>
     </div>
   </div>
 </template>
