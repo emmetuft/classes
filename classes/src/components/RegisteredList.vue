@@ -1,7 +1,7 @@
 <template>
 <div class="wrapper">
   <div class="courses">
-    <div class="course" v-for="course in courses" :key="course.id">
+    <div class="course" v-for="course in registeredCourses" :key="course.id">
       <div class="title">
         <h4>{{ course.name }}</h4>
       </div>
@@ -14,8 +14,7 @@
         <p>{{ course.time }}</p>
         <p>{{ course.price }}</p>
       </div>
-      <button v-if="!checkRegistration(course)" v-bind:id="course.id" class="btn btn-dark" v-on:click="register(course)">Register</button>
-      <button v-if="checkRegistration(course)" v-bind:id="course.id" class="btn btn-dark" v-on:click="register(course)">Registered!</button>
+      <button class="btn btn-dark" v-on:click="unregister(course)">Unregister</button>
     </div>
   </div>
 </div>
@@ -23,39 +22,23 @@
 
 <script>
 export default {
-  name: 'CourseList',
+  name: 'RegisteredList',
   props: {
-    courses: Array
+    registeredCourses: Array
   },
 
   methods: {
-    register(course) {
-      var button = document.getElementById(course.id);
-      if (button.innerHTML == "Register") {
-        this.$root.$data.registeredCourses.push(course);
-        button.innerHTML = "Registered!";
-      }
-    },
-
-    checkRegistration(course) {
-      if (this.$root.$data.registeredCourses.indexOf(course) == -1) {
-        return false;
-      }
-      return true;
+    unregister(course) {
+      var index = this.$root.$data.registeredCourses.indexOf(course);
+      this.$root.$data.registeredCourses.splice(index, 1);
     }
-  },
-
-  created() {
-
   }
 }
 </script>
 
 <style scoped>
 .wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 100%;
 }
 
 .courses {
@@ -63,6 +46,7 @@ export default {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
+  width: 100%;
 }
 
 .course {
@@ -70,7 +54,7 @@ export default {
   margin-top: 50px;
   width: 200px;
   flex-basis: 20%;
-  background-color: rgb(240, 241, 243);
+  background-color: rgb(198, 220, 221);
   border-radius: 10px;
   padding-top: 15px;
   padding-bottom: 15px;
@@ -87,7 +71,7 @@ h4 {
 
 .description-container {
   height: 140px;
-  background-color: rgb(220, 223, 230);
+  background-color: rgb(226, 242, 243);
   padding: 10px;
   margin-bottom: 15px;
 }
@@ -101,13 +85,13 @@ h4 {
 }
 
 .btn-dark {
-  background-color: #008f95 !important;
-  border-color: #008f95 !important;
+  background-color: #e9b000 !important;
+  border-color: #e9b000 !important;
 }
 
 .btn-dark:hover {
-  background-color: #015c5f !important;
-  border-color: #015c5f !important;
+  background-color: #a77e04 !important;
+  border-color: #a77e04 !important;
 }
 
 @media only screen and (max-width: 600px) {

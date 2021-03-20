@@ -1,17 +1,17 @@
 <template>
   <div id="app">
     <nav class="navbar navbar-expand-lg navbar-dark">
-      <a class="navbar-brand" href="#">Navbar</a>
+      <router-link to="/" exact-active-class="active-link" class="navbar-brand">Home</router-link>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <router-link to="/" exact-active-class="active-link" class="nav-link">Home</router-link>
+            <router-link to="/courses" exact-active-class="active-link" class="nav-link">View courses</router-link>
           </li>
           <li class="nav-item">
-            <router-link to="/courses" exact-active-class="active-link" class="nav-link">View courses</router-link>
+            <router-link to="/registration" exact-active-class="active-link" class="nav-link">My courses</router-link>
           </li>
           <li class="nav-item">
             <router-link to="/create" exact-active-class="active-link" class="nav-link">Create a course</router-link>

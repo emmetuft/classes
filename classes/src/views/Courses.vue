@@ -14,7 +14,7 @@
 import CourseList from '@/components/CourseList.vue'
 
 export default {
-  name: 'Home',
+  name: 'Courses',
   components: {
     CourseList
   },

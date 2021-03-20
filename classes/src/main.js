@@ -7,7 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 
 let data = {
   courses: mock,
-  currCourse: ""
+  registeredCourses: []
 }
 
 Vue.config.productionTip = false
