@@ -12,6 +12,7 @@
 <script>
 // @ is an alias to /src
 import CourseList from '@/components/CourseList.vue'
+import axios from 'axios';
 
 export default {
   name: 'Courses',
@@ -20,14 +21,23 @@ export default {
   },
   data() {
     return {
-
+      courses: []
     }
   },
-  computed: {
-    courses() {
-      return this.$root.$data.courses;
-    }
+  created() {
+    this.getCourses();
   },
+  methods: {
+    async getCourses() {
+      try {
+        let response = await axios.get("/api/courses");
+        this.courses = response.data;
+        return true;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  }
 }
 </script>
 

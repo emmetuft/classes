@@ -3,80 +3,101 @@
     <div class="heading">
       <h1>Create a course</h1>
     </div>
-    <div class="create">
-      <div class="row-div">
-        <div class="input-group">
-          <div class="input-group-prepend">
-            <span class="input-group-text">Course title:</span>
+    <form @submit.prevent="createCourse">
+      <div class="create">
+        <div class="row-div">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">Course title:</span>
+            </div>
+            <input v-model="title" type="text" class="form-control">
           </div>
-          <input id="title" type="text" class="form-control">
+        </div>
+        <div class="row-div">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">Instructor's name:</span>
+            </div>
+            <input v-model="instructor" type="text" class="form-control">
+          </div>
+        </div>
+        <div class="row-div">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">Description:</span>
+            </div>
+            <input v-model="description" type="text" class="form-control">
+          </div>
+        </div>
+        <div class="row-div">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">Time:</span>
+            </div>
+            <input v-model="time" type="text" class="form-control">
+          </div>
+        </div>
+        <div class="row-div">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">Duration:</span>
+            </div>
+            <input v-model="duration" type="text" class="form-control">
+          </div>
+        </div>
+        <div class="row-div">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">Price:</span>
+            </div>
+            <input v-model="price" type="text" class="form-control">
+          </div>
+        </div>
+        <div>
+          <button type="submit" id="create-button" class="btn btn-dark">Create course</button>
         </div>
       </div>
-      <div class="row-div">
-        <div class="input-group">
-          <div class="input-group-prepend">
-            <span class="input-group-text">Instructor's name:</span>
-          </div>
-          <input id="instructor" type="text" class="form-control">
-        </div>
-      </div>
-      <div class="row-div">
-        <div class="input-group">
-          <div class="input-group-prepend">
-            <span class="input-group-text">Description:</span>
-          </div>
-          <input id="description" type="text" class="form-control">
-        </div>
-      </div>
-      <div class="row-div">
-        <div class="input-group">
-          <div class="input-group-prepend">
-            <span class="input-group-text">Time:</span>
-          </div>
-          <input id="time" type="text" class="form-control">
-        </div>
-      </div>
-      <div class="row-div">
-        <div class="input-group">
-          <div class="input-group-prepend">
-            <span class="input-group-text">Duration:</span>
-          </div>
-          <input id="duration" type="text" class="form-control">
-        </div>
-      </div>
-      <div class="row-div">
-        <div class="input-group">
-          <div class="input-group-prepend">
-            <span class="input-group-text">Price:</span>
-          </div>
-          <input id="price" type="text" class="form-control">
-        </div>
-      </div>
-      <div>
-        <button id="create-button" class="btn btn-dark" v-on:click="create()">Create course</button>
-      </div>
-    </div>
+    </form>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
 
 export default {
+  data() {
+    return {
+      title: "",
+      instructor: "",
+      description: "",
+      time: "",
+      duration: "",
+      price: ""
+    }
+  },
 
   methods: {
-    create() {
-      var c_title = document.getElementById("title").value;
-      var c_instructor = document.getElementById("instructor").value;
-      var c_description = document.getElementById("description").value;
-      var c_time = document.getElementById("time").value;
-      var c_duration = document.getElementById("duration").value;
-      var c_price = document.getElementById("price").value;
+    async createCourse() {
+      try {
+        await axios.post("/api/course", {
+          title: this.title,
+          instructor: this.instructor,
+          description: this.description,
+          time: this.time,
+          duration: this.duration,
+          price: this.price
+        });
 
-      var newCourse = {id: this.$root.$data.courses.length, name: c_title, instructor: c_instructor, description: c_description, time: c_time, duration: c_duration, price: c_price}
-      this.$root.$data.courses.push(newCourse);
-
-      document.getElementById("create-button").innerHTML = "Course created!";
-
+        document.getElementById("create-button").innerHTML = "Course created!";
+        this.title = "",
+        this.instructor = "",
+        this.description = "",
+        this.time = "",
+        this.duration = "",
+        this.price = ""
+      } catch (error) {
+        console.log(error);
+      }
     }
   }
 }
