@@ -3,6 +3,9 @@
     <div class="heading">
       <h1>Open courses</h1>
     </div>
+    <div v-show="empty">
+      There are currently no available courses.
+    </div>
     <div class="wrapper">
       <CourseList :courses="courses"/>
     </div>
@@ -22,6 +25,14 @@ export default {
   data() {
     return {
       courses: []
+    }
+  },
+  computed: {
+    empty() {
+      if (this.courses.length == 0) {
+        return true;
+      }
+      return false;
     }
   },
   created() {
@@ -46,6 +57,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
 }
 .heading {
   color: #008f95;

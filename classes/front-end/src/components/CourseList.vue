@@ -2,8 +2,11 @@
 <div class="wrapper">
   <div class="courses">
     <div class="course" v-for="course in courses" :key="course.id">
-      <div class="title">
-        <h4>{{ course.name }}</h4>
+      <div class="title-row">
+        <i class="fas fa-trash-alt" v-on:click="deleteCourse(course)"></i>
+        <div class="title">
+          <h4>{{ course.title }}</h4>
+        </div>
       </div>
       <p>Instructor: {{ course.instructor }}</p>
       <div class="description-container">
@@ -22,6 +25,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: 'CourseList',
   props: {
@@ -43,6 +48,16 @@ export default {
         return false;
       }
       return true;
+    },
+
+    async deleteCourse(course) {
+      try {
+        await axios.delete("/api/course/" + course._id);
+        this.$parent.getCourses();
+        return true;
+      } catch (error) {
+        console.log(error);
+      }
     }
   },
 
@@ -64,6 +79,7 @@ export default {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
+  width: 100%;
 }
 
 .course {
@@ -77,9 +93,13 @@ export default {
   padding-bottom: 15px;
 }
 
-.title {
-  height: 40px;
+.title-row {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  align-items: flex-start;
   margin-bottom: 20px;
+  padding: 0 20px 0 20px;
 }
 
 h4 {
@@ -115,6 +135,10 @@ h4 {
 .btn-color:hover {
   background-color: #e24e42 !important;
   border-color: #e24e42 !important;
+}
+
+.fas:hover {
+  cursor: pointer;
 }
 
 @media only screen and (max-width: 600px) {
