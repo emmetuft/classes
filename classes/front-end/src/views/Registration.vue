@@ -3,7 +3,7 @@
         <div class="heading">
             <h1>My courses</h1>
         </div>
-        <div v-show="!hasCourses">
+        <div v-show="empty">
             You haven't registered for any courses yet.
         </div>
         <div class="wrapper">
@@ -13,7 +13,8 @@
 </template>
 
 <script>
-import RegisteredList from '@/components/RegisteredList.vue'
+import RegisteredList from '@/components/RegisteredList.vue';
+import axios from 'axios';
 
 export default {
   name: 'Registration',
@@ -22,17 +23,34 @@ export default {
   },
   data() {
     return {
-
+      registeredCourses: []
     }
   },
   computed: {
-    registeredCourses() {
-        return this.$root.$data.registeredCourses;
-    },
-    hasCourses() {
-      return this.$root.$data.registeredCourses.length > 0;
+    empty() {
+      if (this.registeredCourses.length == 0) {
+        return true;
+      }
+      return false;
     }
   },
+  created() {
+    this.getRegisteredCourses();
+  },
+  methods: {
+    async getRegisteredCourses() {
+      try {
+        let response = await axios.get("/api/registration");
+        let registrationList = response.data;
+        if (registrationList.length > 0) {
+          this.registeredCourses = registrationList[0].courses
+        }
+        return true;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  }
 }
 </script>
 

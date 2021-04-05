@@ -21,6 +21,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: 'RegisteredList',
   props: {
@@ -28,9 +30,22 @@ export default {
   },
 
   methods: {
-    unregister(course) {
-      var index = this.$root.$data.registeredCourses.indexOf(course);
-      this.$root.$data.registeredCourses.splice(index, 1);
+    async unregister(course) {
+      try {
+        let response = await axios.get("/api/registration");
+        let registrationLists = response.data;
+        let index = registrationLists[0].courses.indexOf(course);
+        try {
+          await axios.put("/api/registration/" + registrationLists[0]._id, {
+            courses: registrationLists[0].courses.splice(index, 1)
+          });
+          this.$parent.getRegisteredCourses();
+        } catch (error) {
+          console.log(error);
+        }
+      } catch (error) {
+        console.log(error);
+      }
     }
   }
 }

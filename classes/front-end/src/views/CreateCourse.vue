@@ -3,61 +3,59 @@
     <div class="heading">
       <h1>Create a course</h1>
     </div>
-    <form @submit.prevent="createCourse">
-      <div class="create">
-        <div class="row-div">
-          <div class="input-group">
-            <div class="input-group-prepend">
-              <span class="input-group-text">Course title:</span>
-            </div>
-            <input v-model="title" type="text" class="form-control">
+    <div class="create">
+      <div class="row-div">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Course title:</span>
           </div>
-        </div>
-        <div class="row-div">
-          <div class="input-group">
-            <div class="input-group-prepend">
-              <span class="input-group-text">Instructor's name:</span>
-            </div>
-            <input v-model="instructor" type="text" class="form-control">
-          </div>
-        </div>
-        <div class="row-div">
-          <div class="input-group">
-            <div class="input-group-prepend">
-              <span class="input-group-text">Description:</span>
-            </div>
-            <input v-model="description" type="text" class="form-control">
-          </div>
-        </div>
-        <div class="row-div">
-          <div class="input-group">
-            <div class="input-group-prepend">
-              <span class="input-group-text">Time:</span>
-            </div>
-            <input v-model="time" type="text" class="form-control">
-          </div>
-        </div>
-        <div class="row-div">
-          <div class="input-group">
-            <div class="input-group-prepend">
-              <span class="input-group-text">Duration:</span>
-            </div>
-            <input v-model="duration" type="text" class="form-control">
-          </div>
-        </div>
-        <div class="row-div">
-          <div class="input-group">
-            <div class="input-group-prepend">
-              <span class="input-group-text">Price:</span>
-            </div>
-            <input v-model="price" type="text" class="form-control">
-          </div>
-        </div>
-        <div>
-          <button type="submit" id="create-button" class="btn btn-dark">Create course</button>
+          <input v-model="title" type="text" class="form-control">
         </div>
       </div>
-    </form>
+      <div class="row-div">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Instructor's name:</span>
+          </div>
+          <input v-model="instructor" type="text" class="form-control">
+        </div>
+      </div>
+      <div class="row-div">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Description:</span>
+          </div>
+          <input v-model="description" type="text" class="form-control">
+        </div>
+      </div>
+      <div class="row-div">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Time:</span>
+          </div>
+          <input v-model="time" type="text" class="form-control">
+        </div>
+      </div>
+      <div class="row-div">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Duration:</span>
+          </div>
+          <input v-model="duration" type="text" class="form-control">
+        </div>
+      </div>
+      <div class="row-div">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Price:</span>
+          </div>
+          <input v-model="price" type="text" class="form-control">
+        </div>
+      </div>
+      <div>
+        <button type="submit" id="create-button" class="btn btn-dark" v-on:click="createCourse()">Create course</button>
+      </div>
+    </div>
   </div>
 </template>
 

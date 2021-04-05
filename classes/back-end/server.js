@@ -108,21 +108,18 @@ app.post('/api/registration', async (req, res) => {
   }
 });
 
-// Get courses from a registration list
-app.get('/api/registration/:id', async (req, res) => {
+// Get a registration list
+app.get('/api/registration', async (req, res) => {
   try {
-    let registrationList = await RegistrationList.findOne({
-      _id: req.params.id
-    });
-    res.send(registrationList.courses);
+    let registrationLists = await RegistrationList.find();
+    res.send(registrationLists);
   } catch (error) {
     console.log(error);
     res.sendStatus(500);
   }
 });
 
-
-// Add a course to a registration list
+// Edit a registration list
 app.put('/api/registration/:id', async (req, res) => {
   try {
     let registrationList = await RegistrationList.findOne({
