@@ -70,14 +70,16 @@ export default {
       description: "",
       time: "",
       duration: "",
-      price: ""
+      price: "",
+      newCourse: null
     }
   },
 
   methods: {
     async createCourse() {
+      document.getElementById("create-button").innerHTML = "Course created!";
       try {
-        await axios.post("/api/course", {
+        let response = await axios.post("/api/course", {
           title: this.title,
           instructor: this.instructor,
           description: this.description,
@@ -85,17 +87,48 @@ export default {
           duration: this.duration,
           price: this.price
         });
-
-        document.getElementById("create-button").innerHTML = "Course created!";
-        this.title = "",
-        this.instructor = "",
-        this.description = "",
-        this.time = "",
-        this.duration = "",
-        this.price = ""
+        this.newCourse = response.data;
       } catch (error) {
         console.log(error);
       }
+
+      try {
+        let response = await axios.get("/api/instructor/" + this.instructor);
+        let instructor = response.data;
+        if (instructor != "") {
+          //instructor exists
+          try {
+            await axios.put("/api/instructor/" + this.instructor, {
+              course_id: this.newCourse._id
+            });
+          } catch (error) {
+            console.log(error);
+          }
+        }
+        else {
+          //instructor doesn't exist yet
+          try {
+            console.log(this.newCourse);
+            let instructor = await axios.post("/api/instructor", {
+              name: this.instructor,
+              course_id: this.newCourse._id
+            });
+            console.log(instructor);
+          } catch (error) {
+            console.log(error);
+          }
+        }
+      } catch (error) {
+        console.log(error);
+      }
+
+      //document.getElementById("create-button").innerHTML = "Course created!";
+      this.title = "",
+      this.instructor = "",
+      this.description = "",
+      this.time = "",
+      this.duration = "",
+      this.price = ""
     }
   }
 }

@@ -23,14 +23,30 @@ const courseSchema = new mongoose.Schema({
   price: String
 });
 
-// Create a scheme for registration lists
-const registrationListSchema = new mongoose.Schema({
-  courses: Array
+// Create a scheme for registered courses
+const registeredCourseSchema = new mongoose.Schema({
+  title: String,
+  instructor: String,
+  description: String,
+  time: String,
+  duration: String,
+  price: String
 });
 
-// Create models for courses and registration lists
+// Create models for courses and registered courses
 const Course = mongoose.model('Course', courseSchema);
-const RegistrationList = mongoose.model('RegistrationList', registrationListSchema);
+const RegisteredCourse = mongoose.model('RegisteredCourse', registeredCourseSchema);
+
+const instructorSchema = new mongoose.Schema({
+  name: String,
+  courses: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Course'
+  }]
+});
+
+// Create model for instructors
+const Instructor = mongoose.model('Instructor', instructorSchema);
 
 // Create a new course
 app.post('/api/course', async (req, res) => {
@@ -68,6 +84,9 @@ app.delete('/api/course/:id', async (req, res) => {
     await Course.deleteOne({
       _id: req.params.id
     });
+    await RegisteredCourse.deleteOne({
+      _id: req.params.id
+    });
     res.sendStatus(200);
   } catch (error) {
     console.log(error);
@@ -94,43 +113,147 @@ app.put('/api/course/:id', async (req, res) => {
   }
 })
 
-// Create a new registration list
+// Register for a course
 app.post('/api/registration', async (req, res) => {
-  const registrationList = new RegistrationList({
-    courses: req.body.courses
+  const registeredCourse = new RegisteredCourse({
+    _id: req.body._id,
+    title: req.body.title,
+    instructor: req.body.instructor,
+    description: req.body.description,
+    time: req.body.time,
+    duration: req.body.duration,
+    price: req.body.price
   });
   try {
-    await registrationList.save();
-    res.send(registrationList);
+    await registeredCourse.save();
+    res.send(registeredCourse);
   } catch (error) {
     console.log(error);
     res.sendStatus(500);
   }
 });
 
-// Get a registration list
+// Get all registered courses
 app.get('/api/registration', async (req, res) => {
   try {
-    let registrationLists = await RegistrationList.find();
-    res.send(registrationLists);
+    let registeredCourses = await RegisteredCourse.find();
+    res.send(registeredCourses);
   } catch (error) {
     console.log(error);
     res.sendStatus(500);
   }
 });
 
-// Edit a registration list
-app.put('/api/registration/:id', async (req, res) => {
+// Unregister from a course
+app.delete('/api/registration/:id', async (req, res) => {
   try {
-    let registrationList = await RegistrationList.findOne({
+    await RegisteredCourse.deleteOne({
       _id: req.params.id
     });
-    registrationList.courses = req.body.courses
-    registrationList.save();
+    res.sendStatus(200);
   } catch (error) {
     console.log(error);
     res.sendStatus(500);
   }
-})
+});
+
+// Create a new instructor
+app.post('/api/instructor', async (req, res) => {
+  try {
+    let newCourse = await Course.findOne({
+      _id: req.body.course_id
+    });
+  
+    const instructor = new Instructor({
+      name: req.body.name,
+      courses: [newCourse]
+    });
+
+    await instructor.save();
+    res.send(instructor);
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+  }
+});
+
+// Get an instructor and their courses
+app.get('/api/instructor/:name', async (req, res) => {
+  try {
+    let instructor = await Instructor.findOne({
+      name: req.params.name
+    });
+
+    if (instructor) {
+      let currCourses = []
+      for (let i = 0; i < instructor.courses.length; i++) {
+        let currCourse = await Course.findOne({
+          _id: instructor.courses[i]
+        });
+        currCourses.push(currCourse);
+      }
+  
+      instructor.courses = currCourses;
+    }
+
+    res.send(instructor);
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+  }
+});
+
+// Add a course to an instructor's course list
+app.put('/api/instructor/:name', async (req, res) => {
+  try {
+    let newCourse = await Course.findOne({
+      _id: req.body.course_id
+    });
+
+    let instructor = await Instructor.findOne({
+      name: req.params.name
+    });
+
+    let updatedCourses = [newCourse._id];
+    for (let i = 0; i < instructor.courses.length; i++) {
+      updatedCourses.push(instructor.courses[i]);
+    }
+
+    instructor.courses = updatedCourses
+    instructor.save();
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+  }
+});
+
+// Remove a course from an instructor's course list
+app.put('/api/instructor/remove/:name', async (req, res) => {
+  try {
+    let oldCourse = await Course.findOne({
+      _id: req.body.course_id
+    });
+
+    let instructor = await Instructor.findOne({
+      name: req.params.name
+    });
+
+    var index = instructor.courses.indexOf(oldCourse._id);
+    instructor.courses.splice(index, 1);
+    instructor.save();
+
+    await Course.deleteOne({
+      _id: req.body.course_id
+    });
+    await RegisteredCourse.deleteOne({
+      _id: req.body.course_id
+    });
+
+    res.sendStatus(200);
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+  }
+});
 
 app.listen(3001, () => console.log('Server listening on port 3001!'));

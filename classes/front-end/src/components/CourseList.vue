@@ -8,7 +8,7 @@
           <h4>{{ course.title }}</h4>
         </div>
       </div>
-      <p>Instructor: {{ course.instructor }}</p>
+      <button class="btn btn-light" v-on:click="viewInstructor(course.instructor)" data-toggle="modal" data-target="#exampleModal">Instructor: {{ course.instructor }}</button>
       <div class="description-container">
         <p class="description">{{ course.description }}</p>
       </div>
@@ -19,6 +19,31 @@
       </div>
       <button v-if="!checkRegistration(course)" v-bind:id="course._id" class="btn btn-dark" v-on:click="register(course)">Register</button>
       <button v-if="checkRegistration(course)" v-bind:id="course._id" class="btn btn-dark btn-color" v-on:click="register(course)">Registered!</button>
+    </div>
+  </div>
+
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">{{ this.selectedInstructor }}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <h5>Courses taught:</h5>
+          <div v-show="loading">
+            <p>Loading courses...</p>
+          </div>
+          <div v-show="!loading" v-for="course in selectedCourses" :key="course._id">
+            <p>{{ course.title }}</p>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -32,35 +57,29 @@ export default {
   props: {
     courses: Array
   },
-
+  data() {
+    return {
+      registeredCourses: [],
+      selectedInstructor: "",
+      selectedCourses: [],
+      loading: true
+    }
+  },
   methods: {
     async register(course) {
       var button = document.getElementById(course._id);
 
       if (button.innerHTML == "Register") {       
         try {
-          let response = await axios.get("/api/registration");
-          let registrationLists = response.data;
-          if (registrationLists.length > 0) {
-            if (registrationLists[0].courses.indexOf(course) == -1) {
-              try {
-                await axios.put("/api/registration/" + registrationLists[0]._id, {
-                  courses: registrationLists[0].courses.push(course)
-                });
-              } catch (error) {
-                console.log(error);
-              }
-            }
-          }
-          else {
-            try {
-              await axios.post("/api/registration", {
-                courses: [course]
-              })
-            } catch (error) {
-              console.log(error);
-            }
-          }
+          await axios.post("/api/registration", {
+            _id: course._id,
+            title: course.title,
+            instructor: course.instructor,
+            description: course.description,
+            time: course.time,
+            duration: course.duration,
+            price: course.price
+          });         
         } catch (error) {
           console.log(error);
         }
@@ -70,26 +89,54 @@ export default {
       }
     },
 
-    checkRegistration(course) {
-      if (this.$root.$data.registeredCourses.indexOf(course) == -1) {
-        return false;
+    async getRegisteredCourses() {
+      try {
+        let response = await axios.get("/api/registration");
+        this.registeredCourses = response.data;
+        return true;
+      } catch (error) {
+        console.log(error);
       }
-      return true;
+    },
+
+    checkRegistration(course) {
+      for (let i = 0; i < this.registeredCourses.length; i++) {
+        if (this.registeredCourses[i].title == course.title && this.registeredCourses[i].instructor == course.instructor) {
+          return true;
+        }
+      }
+      return false;
     },
 
     async deleteCourse(course) {
       try {
-        await axios.delete("/api/course/" + course._id);
-        this.$parent.getCourses();
+        await axios.put("/api/instructor/remove/" + course.instructor, {
+          course_id: course._id
+        });
+      } catch (error) {
+        console.log(error);
+      }
+
+      this.$parent.getCourses();
+    },
+
+    async viewInstructor(name) {
+      this.loading = true;
+      try {
+        let response = await axios.get("/api/instructor/" + name);
+        let instructor = response.data;
+
+        this.selectedInstructor = instructor.name;
+        this.selectedCourses = instructor.courses;
+        this.loading = false;
         return true;
       } catch (error) {
         console.log(error);
       }
     }
   },
-
   created() {
-
+    this.getRegisteredCourses();
   }
 }
 </script>
@@ -162,6 +209,19 @@ h4 {
 .btn-color:hover {
   background-color: #e24e42 !important;
   border-color: #e24e42 !important;
+}
+
+.btn-light {
+  background-color: #e9b000 !important;
+  border-color: #e9b000 !important;
+  color: white;
+  margin-bottom: 20px;
+}
+
+.btn-light:hover {
+  background-color: #ce9f11 !important;
+  border-color: #ce9f11 !important;
+  color: white;
 }
 
 .fas:hover {

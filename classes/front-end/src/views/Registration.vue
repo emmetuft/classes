@@ -41,10 +41,7 @@ export default {
     async getRegisteredCourses() {
       try {
         let response = await axios.get("/api/registration");
-        let registrationList = response.data;
-        if (registrationList.length > 0) {
-          this.registeredCourses = registrationList[0].courses
-        }
+        this.registeredCourses = response.data;
         return true;
       } catch (error) {
         console.log(error);

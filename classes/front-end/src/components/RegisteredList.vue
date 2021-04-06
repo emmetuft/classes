@@ -3,7 +3,7 @@
   <div class="courses">
     <div class="course" v-for="course in registeredCourses" :key="course.id">
       <div class="title">
-        <h4>{{ course.name }}</h4>
+        <h4>{{ course.title }}</h4>
       </div>
       <p>Instructor: {{ course.instructor }}</p>
       <div class="description-container">
@@ -32,17 +32,8 @@ export default {
   methods: {
     async unregister(course) {
       try {
-        let response = await axios.get("/api/registration");
-        let registrationLists = response.data;
-        let index = registrationLists[0].courses.indexOf(course);
-        try {
-          await axios.put("/api/registration/" + registrationLists[0]._id, {
-            courses: registrationLists[0].courses.splice(index, 1)
-          });
-          this.$parent.getRegisteredCourses();
-        } catch (error) {
-          console.log(error);
-        }
+        await axios.delete("/api/registration/" + course._id);
+        this.$parent.getRegisteredCourses();
       } catch (error) {
         console.log(error);
       }
@@ -95,18 +86,14 @@ h4 {
   font-size: 14px;
 }
 
-.course-info {
-
-}
-
 .btn-dark {
   background-color: #e9b000 !important;
   border-color: #e9b000 !important;
 }
 
 .btn-dark:hover {
-  background-color: #a77e04 !important;
-  border-color: #a77e04 !important;
+  background-color: #ce9f11 !important;
+  border-color: #ce9f11 !important;
 }
 
 @media only screen and (max-width: 600px) {
