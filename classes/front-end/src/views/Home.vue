@@ -1,12 +1,11 @@
 <template>
   <div>
-    <div class="color-block wrapper">
-      <div class="half">
-        <h1>learn from the comfort of your own home</h1>
-      </div>
-      <div class="half">
-        <img class="image" src="/color-stream.png" alt="">
-      </div>
+    <div class="image-container">
+      <img class="image" src="/cover-3.jpg" alt="">
+    </div>
+    <div class="fixed-header">
+      <div class="heading">Gradify</div>
+      <div class="subheading">Take courses from people in your local community and graduate with newfound skills.</div>
     </div>
     <div class="message wrapper-c">
       <div class="message-text">
@@ -48,33 +47,36 @@ export default {
   justify-content: center;
   flex-wrap: wrap;
 }
-.color-block {
-  background-color: #008f95;
-  height: 500px;
+.fixed-header {
+  position: fixed;
+  top: 240px;
+  left: 120px;
+  width: 400px;
+  text-align: left;
 }
-.half {
-  width: 50%;
-  padding: 20px;
-}
-h1 {
-  font-size: 60px;
+.heading {
   color: white;
+  font-size: 50px;
+}
+.subheading {
+  color: white;
+  font-size: 18px;
 }
 .message {
   height: 230px;
 }
 .message-text {
-  color: #008f95;
+  color: #b95300;
   font-size: 36px;
 }
 .message-subtext {
-  color: #cea21e;
+  color: rgb(44, 44, 44);
   font-size: 20px;
 }
 .footer {
   width: 100%;
   height: 50px;
-  background-color: #e24e42;
+  background-color: #f3f3f3;
   position: absolute;
   bottom: 0;
   display: flex;
@@ -82,25 +84,24 @@ h1 {
   align-items: center;
 }
 a {
-  color: white;
+  color: rgb(95, 95, 95);
 }
 a:hover {
-  color: #008f95;
+  color: black;
+}
+.image-container {
+  height: 500px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+.image {
+  width: 100%;
 }
 
 @media only screen and (max-width: 600px) {
-  .color-block {
-    height: 400px;
-  }
-  .half {
-    width: 100%;
-    padding: 5px;
-  }
   h1 {
     font-size: 40px;
-  }
-  .image {
-    width: 90%;
   }
   .footer {
     position: relative;
