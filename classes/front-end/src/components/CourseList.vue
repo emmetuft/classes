@@ -8,7 +8,7 @@
           <h4>{{ course.title }}</h4>
         </div>
       </div>
-      <button class="btn btn-light" v-on:click="viewInstructor(course.instructor)" data-toggle="modal" data-target="#exampleModal">Instructor: {{ course.instructor }}</button>
+      <button class="btn btn-dark" v-on:click="viewInstructor(course.instructor)" data-toggle="modal" data-target="#exampleModal">Instructor: {{ course.instructor }}</button>
       <div class="description-container">
         <p class="description">{{ course.description }}</p>
       </div>
@@ -71,14 +71,8 @@ export default {
 
       if (button.innerHTML == "Register") {       
         try {
-          await axios.post("/api/registration", {
-            _id: course._id,
-            title: course.title,
-            instructor: course.instructor,
-            description: course.description,
-            time: course.time,
-            duration: course.duration,
-            price: course.price
+          await axios.post("/api/users/registration", {
+            course_id: course._id,
           });         
         } catch (error) {
           console.log(error);
@@ -91,7 +85,7 @@ export default {
 
     async getRegisteredCourses() {
       try {
-        let response = await axios.get("/api/registration");
+        let response = await axios.get("/api/users/registration");
         this.registeredCourses = response.data;
         return true;
       } catch (error) {
@@ -110,7 +104,7 @@ export default {
 
     async deleteCourse(course) {
       try {
-        await axios.put("/api/instructor/remove/" + course.instructor, {
+        await axios.put("/api/instructors/remove/", {
           course_id: course._id
         });
       } catch (error) {
@@ -120,13 +114,15 @@ export default {
       this.$parent.getCourses();
     },
 
-    async viewInstructor(name) {
+    async viewInstructor(instructor_o) {
       this.loading = true;
       try {
-        let response = await axios.get("/api/instructor/" + name);
+        let response = await axios.get("/api/instructors", {
+          user: instructor_o
+        });
         let instructor = response.data;
-
-        this.selectedInstructor = instructor.name;
+        console.log(instructor);
+        this.selectedInstructor = instructor.user.name;
         this.selectedCourses = instructor.courses;
         this.loading = false;
         return true;
@@ -161,7 +157,7 @@ export default {
   margin-top: 50px;
   width: 200px;
   flex-basis: 20%;
-  background-color: rgb(240, 241, 243);
+  background-color: #f3f3f3;
   border-radius: 10px;
   padding-top: 15px;
   padding-bottom: 15px;
@@ -192,36 +188,17 @@ h4 {
 }
 
 .btn-dark {
-  background-color: #008f95 !important;
-  border-color: #008f95 !important;
-}
-
-.btn-dark:hover {
-  background-color: #015c5f !important;
-  border-color: #015c5f !important;
+  margin-bottom: 10px;
 }
 
 .btn-color {
-  background-color: #e24e42 !important;
-  border-color: #e24e42 !important;
+  background-color: #b95300 !important;
+  border-color: #b95300 !important;
 }
 
 .btn-color:hover {
-  background-color: #e24e42 !important;
-  border-color: #e24e42 !important;
-}
-
-.btn-light {
-  background-color: #e9b000 !important;
-  border-color: #e9b000 !important;
-  color: white;
-  margin-bottom: 20px;
-}
-
-.btn-light:hover {
-  background-color: #ce9f11 !important;
-  border-color: #ce9f11 !important;
-  color: white;
+  background-color: #8a3e00 !important;
+  border-color: #8a3e00 !important;
 }
 
 .fas:hover {

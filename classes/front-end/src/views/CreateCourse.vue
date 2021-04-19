@@ -15,14 +15,6 @@
       <div class="row-div">
         <div class="input-group">
           <div class="input-group-prepend">
-            <span class="input-group-text">Instructor's name:</span>
-          </div>
-          <input v-model="instructor" type="text" class="form-control">
-        </div>
-      </div>
-      <div class="row-div">
-        <div class="input-group">
-          <div class="input-group-prepend">
             <span class="input-group-text">Description:</span>
           </div>
           <input v-model="description" type="text" class="form-control">
@@ -66,7 +58,6 @@ export default {
   data() {
     return {
       title: "",
-      instructor: "",
       description: "",
       time: "",
       duration: "",
@@ -79,9 +70,8 @@ export default {
     async createCourse() {
       document.getElementById("create-button").innerHTML = "Course created!";
       try {
-        let response = await axios.post("/api/course", {
+        let response = await axios.post("/api/courses/", {
           title: this.title,
-          instructor: this.instructor,
           description: this.description,
           time: this.time,
           duration: this.duration,
@@ -93,12 +83,14 @@ export default {
       }
 
       try {
-        let response = await axios.get("/api/instructor/" + this.instructor);
+        let response = await axios.get("/api/instructors", {
+          user: this.$root.$data.user
+        });
         let instructor = response.data;
         if (instructor != "") {
           //instructor exists
           try {
-            await axios.put("/api/instructor/" + this.instructor, {
+            await axios.put("/api/instructors", {
               course_id: this.newCourse._id
             });
           } catch (error) {
@@ -109,7 +101,7 @@ export default {
           //instructor doesn't exist yet
           try {
             console.log(this.newCourse);
-            let instructor = await axios.post("/api/instructor", {
+            let instructor = await axios.post("/api/instructors", {
               name: this.instructor,
               course_id: this.newCourse._id
             });
@@ -142,12 +134,12 @@ export default {
   justify-content: center;
 }
 .heading {
-  color: #008f95;
+  color: #b95300;
   padding-top: 50px;
-  padding-bottom: 50px;
+  padding-bottom: 20px;
 }
 .create {
-  background-color: rgb(240, 241, 243);
+  background-color: #f3f3f3;
   border-radius: 15px;
   display: flex;
   flex-direction: column;
@@ -164,6 +156,7 @@ export default {
   margin-bottom: 40px;
 }
 .input-group-text {
-  background-color: #fff3d0 !important;
+  background-color: white !important;
+  width: 150px;
 }
 </style>

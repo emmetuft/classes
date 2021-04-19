@@ -6,6 +6,7 @@
     <div class="fixed-header">
       <div class="heading">Gradify</div>
       <div class="subheading">Take courses from people in your local community and graduate with newfound skills.</div>
+      <a href="/courses" class="btn btn-light">Sign up</a>
     </div>
     <div class="message wrapper-c">
       <div class="message-text">
@@ -48,7 +49,7 @@ export default {
   flex-wrap: wrap;
 }
 .fixed-header {
-  position: fixed;
+  position: absolute;
   top: 240px;
   left: 120px;
   width: 400px;
@@ -98,10 +99,23 @@ a:hover {
 .image {
   width: 100%;
 }
+.btn {
+  margin-top: 20px;
+}
 
 @media only screen and (max-width: 600px) {
-  h1 {
-    font-size: 40px;
+  .image-container {
+    align-items: flex-start;
+    height: 400px;
+  }
+  .image {
+    height: 400px;
+    width: auto;
+  }
+  .fixed-header {
+    top: 200px;
+    left: 50px;
+    width: 300px;
   }
   .footer {
     position: relative;

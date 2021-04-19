@@ -40,7 +40,7 @@ export default {
   methods: {
     async getRegisteredCourses() {
       try {
-        let response = await axios.get("/api/registration");
+        let response = await axios.get("/api/users/registration");
         this.registeredCourses = response.data;
         return true;
       } catch (error) {
@@ -58,7 +58,7 @@ export default {
   justify-content: center;
 }
 .heading {
-  color: #008f95;
+  color: #b95300;
   padding-top: 50px;
 }
 </style>

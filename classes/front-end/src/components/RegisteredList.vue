@@ -32,7 +32,9 @@ export default {
   methods: {
     async unregister(course) {
       try {
-        await axios.delete("/api/registration/" + course._id);
+        await axios.delete("/api/users/registration/", {
+          course_id: course._id,
+        });
         this.$parent.getRegisteredCourses();
       } catch (error) {
         console.log(error);
@@ -84,16 +86,6 @@ h4 {
 
 .description {
   font-size: 14px;
-}
-
-.btn-dark {
-  background-color: #e9b000 !important;
-  border-color: #e9b000 !important;
-}
-
-.btn-dark:hover {
-  background-color: #ce9f11 !important;
-  border-color: #ce9f11 !important;
 }
 
 @media only screen and (max-width: 600px) {

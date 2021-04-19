@@ -16,6 +16,9 @@
           <li v-if="user" class="nav-item">
             <router-link to="/create" exact-active-class="active-link" class="nav-link">CREATE COURSE</router-link>
           </li>
+          <li v-if="user" class="nav-item">
+            <router-link to="/" exact-active-class="active-link" class="nav-link" v-on:click.native="logout">LOGOUT</router-link>
+          </li>
         </ul>
       </div>
     </nav>
@@ -24,12 +27,23 @@
 </template>
 
 <script>
+import axios from 'axios';
 
 export default {
   computed: {
     user() {
       return this.$root.$data.user;
     }
+  },
+  methods: {
+    async logout() {
+      try {
+        await axios.delete("/api/users");
+        this.$root.$data.user = null;
+      } catch (error) {
+        this.$root.$data.user = null;
+      }
+    },
   }
 }
 </script>
