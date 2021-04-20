@@ -18,6 +18,7 @@
     </div>
     <div class="footer">
       <a href="https://github.com/emmetuft/classes">GitHub</a>
+      <div>Hours spent on project: 7</div>
     </div>
   </div>
 </template>
@@ -81,7 +82,7 @@ export default {
   position: absolute;
   bottom: 0;
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
 }
 a {
