@@ -47,6 +47,7 @@
       <div>
         <button id="create-button" class="btn btn-dark" v-on:click.prevent="createCourse()">Create course</button>
       </div>
+      <div v-show="error" class="error-message">Please fill out all of the fields.</div>
     </div>
   </div>
 </template>
@@ -62,11 +63,17 @@ export default {
       time: "",
       duration: "",
       price: "",
-      newCourse: null
+      newCourse: null,
+      error: false
     }
   },
   methods: {
     async createCourse() {
+      if (this.title == "" || this.description == "" || this.time == "" || this.duration == "" || this.price == "") {
+        this.error = true;
+        return;
+      }
+
       document.getElementById("create-button").innerHTML = "Course created!";
       try {
         let response = await axios.post("/api/courses/", {
@@ -82,7 +89,6 @@ export default {
       }
 
       this.title = "",
-      this.instructor = "",
       this.description = "",
       this.time = "",
       this.duration = "",
@@ -154,5 +160,12 @@ export default {
 .input-group-text {
   background-color: white !important;
   width: 150px;
+}
+.error-message {
+  background-color: rgb(252, 158, 115);
+  border-radius: 5px;
+  padding: 15px;
+  margin-top: 20px;
+  color: white;
 }
 </style>
