@@ -65,7 +65,6 @@ export default {
       newCourse: null
     }
   },
-
   methods: {
     async createCourse() {
       document.getElementById("create-button").innerHTML = "Course created!";
@@ -81,6 +80,13 @@ export default {
       } catch (error) {
         console.log(error);
       }
+
+      this.title = "",
+      this.instructor = "",
+      this.description = "",
+      this.time = "",
+      this.duration = "",
+      this.price = ""
 
       try {
         let response = await axios.get("/api/instructors/" + this.$root.$data.user._id);
@@ -111,14 +117,6 @@ export default {
       } catch (error) {
         console.log(error);
       }
-
-      //document.getElementById("create-button").innerHTML = "Course created!";
-      this.title = "",
-      this.instructor = "",
-      this.description = "",
-      this.time = "",
-      this.duration = "",
-      this.price = ""
     }
   }
 }

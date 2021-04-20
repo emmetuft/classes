@@ -45,8 +45,6 @@ export default {
   },
   async created() {
     try {
-      let response = await axios.get('/api/users');
-      this.$root.$data.user = response.data.user;
       this.getCourses();
     } catch (error) {
       this.$root.$data.user = null;

@@ -53,22 +53,6 @@ router.get('/all', async (req, res) => {
   }
 });
 
-// Delete a course
-router.delete('/:id', validUser, async (req, res) => {
-  try {
-    await Course.deleteOne({
-      _id: req.params.id
-    });
-    await RegisteredCourse.deleteOne({
-      _id: req.params.id
-    });
-    res.sendStatus(200);
-  } catch (error) {
-    console.log(error);
-    res.sendStatus(500);
-  }
-});
-
 module.exports = {
   routes: router,
   model: Course

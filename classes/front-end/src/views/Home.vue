@@ -86,9 +86,11 @@ export default {
 }
 a {
   color: rgb(95, 95, 95);
+  transition: .5s;
 }
 a:hover {
   color: black;
+  text-decoration: none;
 }
 .image-container {
   height: 500px;

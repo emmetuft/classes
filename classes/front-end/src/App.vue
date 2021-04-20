@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <nav class="navbar navbar-expand-lg navbar-light">
-      <router-link to="/" exact-active-class="active-link" class="navbar-brand">Gradify</router-link>
+      <router-link to="/" exact-active-class="active-link" class="navbar-brand"><span style="color: #b95300"><i class="fas fa-graduation-cap"></i></span> Gradify</router-link>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -35,14 +35,6 @@ export default {
       return this.$root.$data.user;
     }
   },
-  async created() {
-    try {
-      let response = await axios.get('/api/users');
-      this.$root.$data.user = response.data.user;
-    } catch (error) {
-      this.$root.$data.user = null;
-    }
-  },
   methods: {
     async logout() {
       try {
@@ -70,11 +62,11 @@ export default {
 }
 
 .nav-link {
-    display: block;
-    font-size: 12px;
-    font-weight: 600 !important;
-    color: rgb(95, 95, 95) !important;
-    transition: .5s;
+  display: block;
+  font-size: 12px;
+  font-weight: 600 !important;
+  color: rgb(95, 95, 95) !important;
+  transition: .5s;
 }
 
 .nav-item {

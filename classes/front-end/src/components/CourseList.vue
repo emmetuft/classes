@@ -3,10 +3,10 @@
   <div class="courses">
     <div class="course" v-for="course in courses" :key="course._id">
       <div class="title-row">
-        <i class="fas fa-trash-alt" v-on:click="deleteCourse(course)"></i>
         <div class="title">
           <h4>{{ course.title }}</h4>
         </div>
+        <i v-if="isInstructor(course.instructor)" class="fas fa-trash-alt" v-on:click="deleteCourse(course)"></i>
       </div>
       <button class="btn btn-dark" v-on:click="viewInstructor(course.instructor._id)" data-toggle="modal" data-target="#exampleModal">Instructor: {{ course.instructor.firstName }} {{ course.instructor.lastName }}</button>
       <div class="description-container">
@@ -100,6 +100,13 @@ export default {
       return false;
     },
 
+    isInstructor(instructor) {
+      if (this.$root.$data.user._id === instructor._id) {
+        return true;
+      }
+      return false;
+    },
+
     async deleteCourse(course) {
       try {
         await axios.put("/api/instructors/remove/", {
@@ -138,7 +145,6 @@ export default {
   align-items: center;
   justify-content: center;
 }
-
 .courses {
   margin-top: 20px;
   display: flex;
@@ -146,7 +152,6 @@ export default {
   justify-content: space-around;
   width: 100%;
 }
-
 .course {
   margin: 10px;
   margin-top: 50px;
@@ -157,45 +162,37 @@ export default {
   padding-top: 15px;
   padding-bottom: 15px;
 }
-
 .title-row {
   display: flex;
-  flex-direction: row-reverse;
+  flex-direction: row;
   justify-content: space-between;
   align-items: flex-start;
   margin-bottom: 20px;
   padding: 0 20px 0 20px;
 }
-
 h4 {
   font-size: 18px;
 }
-
 .description-container {
   height: 140px;
   background-color: rgb(220, 223, 230);
   padding: 10px;
   margin-bottom: 15px;
 }
-
 .description {
   font-size: 14px;
 }
-
 .btn-dark {
   margin-bottom: 10px;
 }
-
 .btn-color {
   background-color: #b95300 !important;
   border-color: #b95300 !important;
 }
-
 .btn-color:hover {
   background-color: #8a3e00 !important;
   border-color: #8a3e00 !important;
 }
-
 .fas:hover {
   cursor: pointer;
 }
