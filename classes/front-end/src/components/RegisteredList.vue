@@ -48,7 +48,6 @@ export default {
 .wrapper {
   width: 100%;
 }
-
 .courses {
   margin-top: 20px;
   display: flex;
@@ -56,7 +55,6 @@ export default {
   justify-content: space-around;
   width: 100%;
 }
-
 .course {
   margin: 10px;
   margin-top: 50px;
@@ -67,23 +65,19 @@ export default {
   padding-top: 15px;
   padding-bottom: 15px;
 }
-
 .title {
   height: 40px;
   margin-bottom: 20px;
 }
-
 h4 {
   font-size: 18px;
 }
-
 .description-container {
   height: 140px;
   background-color: rgb(226, 242, 243);
   padding: 10px;
   margin-bottom: 15px;
 }
-
 .description {
   font-size: 14px;
 }

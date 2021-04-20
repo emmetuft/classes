@@ -3,7 +3,6 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Registration from '../views/Registration.vue'
 import Courses from '../views/Courses.vue'
-import Course from '../views/Course.vue'
 import CreateCourse from '../views/CreateCourse.vue'
 
 Vue.use(VueRouter)
@@ -23,11 +22,6 @@ const routes = [
     path: '/courses',
     name: 'Courses',
     component: Courses
-  },
-  {
-    path: '/course',
-    name: 'Course',
-    component: Course
   },
   {
     path: '/create',
