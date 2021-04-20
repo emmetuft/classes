@@ -8,7 +8,7 @@
           <h4>{{ course.title }}</h4>
         </div>
       </div>
-      <button class="btn btn-dark" v-on:click="viewInstructor(course.instructor)" data-toggle="modal" data-target="#exampleModal">Instructor: {{ course.instructor }}</button>
+      <button class="btn btn-dark" v-on:click="viewInstructor(course.instructor._id)" data-toggle="modal" data-target="#exampleModal">Instructor: {{ course.instructor.firstName }} {{ course.instructor.lastName }}</button>
       <div class="description-container">
         <p class="description">{{ course.description }}</p>
       </div>
@@ -71,9 +71,7 @@ export default {
 
       if (button.innerHTML == "Register") {       
         try {
-          await axios.post("/api/users/registration", {
-            course_id: course._id,
-          });         
+          await axios.post("/api/registration/" + course._id);         
         } catch (error) {
           console.log(error);
         }
@@ -85,7 +83,7 @@ export default {
 
     async getRegisteredCourses() {
       try {
-        let response = await axios.get("/api/users/registration");
+        let response = await axios.get("/api/registration");
         this.registeredCourses = response.data;
         return true;
       } catch (error) {
@@ -114,15 +112,12 @@ export default {
       this.$parent.getCourses();
     },
 
-    async viewInstructor(instructor_o) {
+    async viewInstructor(instructor_id) {
       this.loading = true;
       try {
-        let response = await axios.get("/api/instructors", {
-          user: instructor_o
-        });
+        let response = await axios.get("/api/instructors/" + instructor_id);
         let instructor = response.data;
-        console.log(instructor);
-        this.selectedInstructor = instructor.user.name;
+        this.selectedInstructor = instructor.user.firstName + " " + instructor.user.lastName;
         this.selectedCourses = instructor.courses;
         this.loading = false;
         return true;

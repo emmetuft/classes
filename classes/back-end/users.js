@@ -4,19 +4,12 @@ const argon2 = require("argon2");
 
 const router = express.Router();
 
-const courses = require("./courses.js");
-const Courses = courses.model;
-
 // User schema and model
 const userSchema = new mongoose.Schema({
   firstName: String,
   lastName: String,
   username: String,
   password: String,
-  registeredCourses: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Course'
-  }]
 });
 
 // This is a hook that will be called before a user record is saved,
@@ -203,66 +196,6 @@ router.delete("/", validUser, async (req, res) => {
     return res.sendStatus(500);
   }
 });
-
-// Register for a course
-router.post('/registration', validUser, async (req, res) => {
-  try {
-    let user = await User.findOne({
-      _id: req.user._id
-    });
-
-    let newCourse = await Course.findOne({
-      _id: req.body.course_id
-    });
-
-    let updatedCourses = [newCourse._id];
-    for (let i = 0; i < user.registeredCourses.length; i++) {
-      updatedCourses.push(user.registeredCourses[i]);
-    }
-
-    user.registeredCourses = updatedCourses
-    user.save();
-  } catch (error) {
-    console.log(error);
-    res.sendStatus(500);
-  }
-});
-  
-// Get all registered courses
-router.get('/registration', validUser, async (req, res) => {
-  try {
-    let user = await User.findOne({
-      _id: req.user._id
-    });
-    res.send(user.registeredCourses);
-  } catch (error) {
-    console.log(error);
-    res.sendStatus(500);
-  }
-});
-  
-// Unregister from a course
-router.delete('/registration', validUser, async (req, res) => {
-  try {
-    let user = await User.findOne({
-      _id: req.user._id
-    });
-
-    let oldCourse = await Course.findOne({
-      _id: req.body.course_id
-    });
-
-    var index = user.registeredCourses.indexOf(oldCourse._id);
-    user.registeredCourses.splice(index, 1);
-    user.save();
-
-    res.sendStatus(200);
-  } catch (error) {
-    console.log(error);
-    res.sendStatus(500);
-  }
-});
-
 
 module.exports = {
   routes: router,

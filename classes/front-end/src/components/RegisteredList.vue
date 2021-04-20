@@ -5,7 +5,7 @@
       <div class="title">
         <h4>{{ course.title }}</h4>
       </div>
-      <p>Instructor: {{ course.instructor }}</p>
+      <p>Instructor: {{ course.instructor.firstName }} {{ course.instructor.lastName }}</p>
       <div class="description-container">
         <p class="description">{{ course.description }}</p>
       </div>
@@ -32,7 +32,7 @@ export default {
   methods: {
     async unregister(course) {
       try {
-        await axios.delete("/api/users/registration/", {
+        await axios.delete("/api/registration/", {
           course_id: course._id,
         });
         this.$parent.getRegisteredCourses();

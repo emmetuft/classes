@@ -19,7 +19,7 @@ const courseSchema = new mongoose.Schema({
   duration: String,
   price: String
 });
-  
+
 // Create models for courses and registered courses
 const Course = mongoose.model('Course', courseSchema);
 
@@ -45,7 +45,7 @@ router.post('/', validUser, async (req, res) => {
 // Get a list of all the available courses
 router.get('/all', async (req, res) => {
   try {
-    let courses = await Course.find();
+    let courses = await Course.find().populate('instructor');
     res.send(courses);
   } catch (error) {
     console.log(error);
@@ -54,7 +54,7 @@ router.get('/all', async (req, res) => {
 });
 
 // Delete a course
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', validUser, async (req, res) => {
   try {
     await Course.deleteOne({
       _id: req.params.id

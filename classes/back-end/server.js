@@ -40,6 +40,10 @@ const courses = require("./courses.js");
 app.use("/api/courses", courses.routes);
 
 // import the instructors module and setup its API path
+const registeredCourses = require("./registeredCourses.js");
+app.use("/api/registration", registeredCourses.routes);
+
+// import the instructors module and setup its API path
 const instructors = require("./instructors.js");
 app.use("/api/instructors", instructors.routes);
 

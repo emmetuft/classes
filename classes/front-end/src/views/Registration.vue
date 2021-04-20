@@ -40,7 +40,7 @@ export default {
   methods: {
     async getRegisteredCourses() {
       try {
-        let response = await axios.get("/api/users/registration");
+        let response = await axios.get("/api/registration");
         this.registeredCourses = response.data;
         return true;
       } catch (error) {

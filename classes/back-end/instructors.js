@@ -45,14 +45,15 @@ router.post('/', validUser, async (req, res) => {
 });
 
 // Get an instructor and their courses
-router.get('/', validUser, async (req, res) => {
+router.get('/:id', validUser, async (req, res) => {
   try {
-    console.log(req.body.user);
-    let instructor = await Instructor.findOne({
-      user: req.body.user
-    }).populate('user');
+    let user = await User.findOne({
+      _id: req.params.id
+    })
 
-    console.log(instructor);
+    let instructor = await Instructor.findOne({
+      user: user
+    }).populate('user');
 
     if (instructor) {
       let currCourses = []

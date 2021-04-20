@@ -45,7 +45,7 @@
         </div>
       </div>
       <div>
-        <button type="submit" id="create-button" class="btn btn-dark" v-on:click="createCourse()">Create course</button>
+        <button id="create-button" class="btn btn-dark" v-on:click.prevent="createCourse()">Create course</button>
       </div>
     </div>
   </div>
@@ -83,9 +83,7 @@ export default {
       }
 
       try {
-        let response = await axios.get("/api/instructors", {
-          user: this.$root.$data.user
-        });
+        let response = await axios.get("/api/instructors/" + this.$root.$data.user._id);
         let instructor = response.data;
         if (instructor != "") {
           //instructor exists
